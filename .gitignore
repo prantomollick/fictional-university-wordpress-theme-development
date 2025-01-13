@@ -67,3 +67,4 @@ Thumbs.db
 
 # track these themes
 !wp-content/themes/fictional-university/
+!wp-content/mu-plugins/

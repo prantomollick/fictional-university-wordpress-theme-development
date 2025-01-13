@@ -869,6 +869,8 @@ body.login {
         padding: 0;
     }
 }
+
+.main-navigation .current_page_parent a,
 .main-navigation .current-page-ancestor a,
 .main-navigation .current-menu-item a,
 .main-navigation a:hover {
