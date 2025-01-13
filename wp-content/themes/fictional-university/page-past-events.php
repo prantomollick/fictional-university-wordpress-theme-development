@@ -4,17 +4,37 @@
     <div class="page-banner__bg-image" style="background-image: url(<?php echo get_theme_file_uri('/assets/images/ocean.jpg')?>)"></div>
     <div class="page-banner__content container container--narrow">
     <h1 class="page-banner__title">
-       <?php esc_html_e('All Events', 'fictional-university')?>
+       <?php esc_html_e('Past Events', 'fictional-university')?>
     </h1>
     <div class="page-banner__intro">
-        <p><?php esc_html_e('See what is going in our world', 'fictional-university')?></p>
+        <p><?php esc_html_e('A recap of our past events.', 'fictional-university')?></p>
     </div>
     </div>
 </div>
 
 
 <div class="container container--narrow page-section">
-    <?php while(have_posts()) { the_post(); ?>
+    <?php 
+        $today = date('Ymd');
+
+        $pastEvents = new WP_Query(array(
+            'paged' => get_query_var('paged', 1),
+            'post_type' => 'event',
+            'meta_key' => 'event_date',
+            'orderby' => 'meta_value_num',
+            'order' => 'ASC',
+            'meta_query' => array(
+                array(
+                    'key' => 'event_date',
+                    'compare' => '<',
+                    'value' => $today,
+                    'type' => 'numeric'
+                )
+            )
+        ));
+    
+        while($pastEvents->have_posts()) { $pastEvents->the_post(); 
+    ?>
         <div class="event-summary">
             <a class="event-summary__date t-center" href="<?php the_permalink(); ?>">
                 <span class="event-summary__month">
@@ -35,13 +55,12 @@
                 <p><?php echo wp_trim_words(get_the_content(), 18); ?><a href="<?php the_permalink(); ?>" class="nu gray">Read more</a></p>
             </div>
         </div>
-    <?php } ?>
+    <?php } wp_reset_postdata(); ?>
 
 
-    <?php echo paginate_links(); ?>
-
-    <hr class="section-break">
-    <p>Looking for a recap of past events? <a href="<?php echo site_url('past-events'); ?>">Check out our past events archive. </a></p>
+    <?php echo paginate_links(array(
+        'total' => $pastEvents->max_num_pages
+    )); ?>
 </div>
 
 
