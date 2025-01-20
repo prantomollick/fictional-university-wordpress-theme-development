@@ -1,16 +1,11 @@
-<?php get_header(); ?>
+<?php
+    get_header();
+    pageBanner(array(
+        'title' => __('All Events', 'fictional-university'),
+        'subtitle' => __('See what is going in our world', 'fictional-university')
+    ));
 
-<div class="page-banner">
-    <div class="page-banner__bg-image" style="background-image: url(<?php echo get_theme_file_uri('/assets/images/ocean.jpg')?>)"></div>
-    <div class="page-banner__content container container--narrow">
-    <h1 class="page-banner__title">
-       <?php esc_html_e('All Events', 'fictional-university')?>
-    </h1>
-    <div class="page-banner__intro">
-        <p><?php esc_html_e('See what is going in our world', 'fictional-university')?></p>
-    </div>
-    </div>
-</div>
+?>
 
 
 <div class="container container--narrow page-section">
