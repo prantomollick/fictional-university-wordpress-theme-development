@@ -6,7 +6,7 @@ function pageBanner($args = array()) {
         'subtitle' => get_field('page_banner_subtitle'),
         'photo' =>  get_field('page_banner_background_image') ? 
                     get_field('page_banner_background_image')['sizes']['pageBanner'] : 
-                    get_theme_file_uri('/assets/images/ocean.jpg')
+                    get_theme_file_uri('/images/ocean.jpg')
     );
 
     // Merge the defaults with the arguments

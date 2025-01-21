@@ -30,7 +30,7 @@
             <li class = "<?php echo get_post_type() == 'event' || is_page('past-events') ? 'current-menu-item' : '' ?>">
                 <a href="<?php echo get_post_type_archive_link('event'); ?>">Events</a>
             </li>
-            <li><a href="#">Campuses</a></li>
+            <li class="<?php echo get_post_type() == 'campus' ? 'current-menu-item' : '' ?>"><a href="<?php echo get_post_type_archive_link('campus'); ?>">Campuses</a></li>
             <li class = "<?php echo get_post_type() == 'post' ? 'current-menu-item' : '' ?>">
                 <a href="<?php echo site_url('blog')?>">Blog</a>
             </li>
