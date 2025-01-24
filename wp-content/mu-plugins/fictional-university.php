@@ -15,7 +15,9 @@ function university_post_types() {
         ),
         'menu_icon' => 'dashicons-location-alt',
         'show_in_rest' => true,
-        'supports' => array('title', 'editor', 'excerpt')
+        'supports' => array('title', 'editor', 'excerpt'), 
+        'capability_type' => 'campus',
+        'map_meta_cap' => true
     ));
 
     // Event Post Type
@@ -32,7 +34,9 @@ function university_post_types() {
         ),
         'menu_icon' => 'dashicons-calendar-alt',
         'show_in_rest' => true,
-        'supports' => array('title', 'editor', 'excerpt')
+        'supports' => array('title', 'editor', 'excerpt'),
+        'capability_type' => 'event',
+        'map_meta_cap' => true
     ));
 
     // Program Post Type
