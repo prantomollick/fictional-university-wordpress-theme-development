@@ -594,6 +594,23 @@ body.login {
   line-height: 1.65;
 }
 
+#my-notes {
+  position: relative;
+}
+
+#my-notes li {
+  transition: all 0.4s ease-out;
+  opacity: 1;
+}
+
+#my-notes li.fade-out {
+  height: 0px !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  opacity: 0.5;
+}
+
 .submit-note:hover {
   background-color: rgb(221.1658536585, 63.0843169468, 32.8341463415);
 }

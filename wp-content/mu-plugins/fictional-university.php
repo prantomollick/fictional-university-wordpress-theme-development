@@ -71,6 +71,42 @@ function university_post_types() {
         'supports' => array('title', 'editor', 'thumbnail')
     ));
 
+    // Note Post Type
+    register_post_type('note', array(
+        'rewrite' => array('slug' => 'notes'),
+        'public' => false,
+        'show_ui' => true,
+        'labels' => array(
+            'name' => 'Notes',
+            'add_new_item' => 'Add New Note',
+            'edit_item' => 'Edit Note',
+            'all_items' => 'All Notes',
+            'singular_name' => 'Note'
+        ),
+        'menu_icon' => 'dashicons-welcome-write-blog',
+        'show_in_rest' => true,
+        'supports' => array('title', 'editor'),
+        'capability_type' => 'note',
+        'map_meta_cap' => true
+    ));
+
+
+      // Like Post Type
+      register_post_type('like', array(
+        'rewrite' => array('slug' => 'likes'),
+        'public' => false,
+        'show_ui' => true,
+        'labels' => array(
+            'name' => 'Likes',
+            'add_new_item' => 'Add New Like',
+            'edit_item' => 'Edit Like',
+            'all_items' => 'All Likes',
+            'singular_name' => 'Like'
+        ),
+        'menu_icon' => 'dashicons-heart',
+        'supports' => array('title'),
+    ));
+
 }
 
 
