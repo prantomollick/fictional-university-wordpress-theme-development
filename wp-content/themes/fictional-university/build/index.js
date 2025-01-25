@@ -15,9 +15,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_GoogleMap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/GoogleMap */ "./src/modules/GoogleMap.js");
 /* harmony import */ var _modules_Search__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/Search */ "./src/modules/Search.js");
 /* harmony import */ var _modules_MyNotes__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/MyNotes */ "./src/modules/MyNotes.js");
+/* harmony import */ var _modules_Like__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/Like */ "./src/modules/Like.js");
 
 
 // Our modules / classes
+
 
 
 
@@ -30,6 +32,7 @@ const heroSlider = new _modules_HeroSlider__WEBPACK_IMPORTED_MODULE_2__["default
 const googleMap = new _modules_GoogleMap__WEBPACK_IMPORTED_MODULE_3__["default"]();
 const search = new _modules_Search__WEBPACK_IMPORTED_MODULE_4__["default"]();
 const myNotes = new _modules_MyNotes__WEBPACK_IMPORTED_MODULE_5__["default"]();
+const likes = new _modules_Like__WEBPACK_IMPORTED_MODULE_6__["default"]();
 
 /***/ }),
 
@@ -153,6 +156,86 @@ class HeroSlider {
   }
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (HeroSlider);
+
+/***/ }),
+
+/***/ "./src/modules/Like.js":
+/*!*****************************!*\
+  !*** ./src/modules/Like.js ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+
+class Like {
+  baseUrl = universityData.root_url;
+  likeBoxEl = document.querySelector(".like-box");
+  constructor() {
+    if (this.likeBoxEl) {
+      axios__WEBPACK_IMPORTED_MODULE_0__["default"].defaults.headers.common["X-WP-Nonce"] = universityData.nonce;
+      this.events();
+    }
+  }
+  events() {
+    this.likeBoxEl.addEventListener("click", e => this.ourClickDispatcher(e));
+  }
+
+  //methods
+  ourClickDispatcher(e) {
+    let currentLikeBox = e.target.closest(".like-box");
+    if (currentLikeBox.getAttribute("data-exists").trim() === "yes") {
+      this.deleteLike(currentLikeBox);
+    } else {
+      this.createLike(currentLikeBox);
+    }
+  }
+  async createLike(currentLikeBox) {
+    try {
+      const res = await (0,axios__WEBPACK_IMPORTED_MODULE_0__["default"])({
+        url: this.baseUrl + "/wp-json/university/v1/manageLike",
+        method: "post",
+        data: {
+          professorId: currentLikeBox.getAttribute("data-professor").trim()
+        }
+      });
+      if (!(res.status === 200)) {
+        throw new Error("Something Went wrong!");
+      }
+      currentLikeBox.setAttribute("data-exists", "yes");
+      let likeCount = parseInt(currentLikeBox.querySelector(".like-count").textContent, 10);
+      likeCount++;
+      currentLikeBox.querySelector(".like-count").textContent = likeCount;
+      currentLikeBox.setAttribute("data-like", res.data);
+      console.log(res.data);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+  async deleteLike(currentLikeBox) {
+    try {
+      const res = await (0,axios__WEBPACK_IMPORTED_MODULE_0__["default"])({
+        url: this.baseUrl + "/wp-json/university/v1/manageLike",
+        method: "delete",
+        data: {
+          like: currentLikeBox.getAttribute("data-like")
+        }
+      });
+      currentLikeBox.setAttribute("data-exists", "no");
+      let likeCount = parseInt(currentLikeBox.querySelector(".like-count").textContent, 10);
+      likeCount--;
+      currentLikeBox.querySelector(".like-count").textContent = likeCount;
+      currentLikeBox.setAttribute("data-like", "");
+      console.log(res.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Like);
 
 /***/ }),
 
