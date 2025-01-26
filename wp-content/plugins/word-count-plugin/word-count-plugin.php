@@ -16,6 +16,61 @@ class WordCountAndTimePlugin {
     function __construct() {
         add_action('admin_menu', array($this, 'adminPage'));
         add_action('admin_init', array($this, 'settings'));
+        add_filter('the_content', array($this, 'ifWrap'));
+    }
+
+    function ifWrap($content) {
+        if ( 
+            is_main_query() AND is_single() AND
+            ( 
+            get_option('wcp_wordcount') == 1 
+            OR get_option('wcp_charactercount') == 1 
+            OR get_option('wcp_readtime') == 1) 
+            ) {
+            return $this->createHTML($content);
+        }
+        return $content;
+    }
+
+    function createHTML($content) {
+        $headline = sanitize_text_field(get_option('wcp_headline', __('Post Statistics', 'word-count-plugin')));
+        $showWordCount = filter_var(get_option('wcp_wordcount', '1'), FILTER_VALIDATE_BOOLEAN);
+        $showCharacterCount = filter_var(get_option('wcp_charactercount', '1'), FILTER_VALIDATE_BOOLEAN);
+        $showReadTime = filter_var(get_option('wcp_readtime', '1'), FILTER_VALIDATE_BOOLEAN);
+        $displayLocation = sanitize_text_field(get_option('wcp_location', '0'));
+
+        $html = '<h3>' . esc_html($headline) . '</h3><p>';
+
+        //calculate word count only if needed
+        if($showWordCount || $showReadTime) {
+            $wordCount = str_word_count(strip_tags($content));
+        }
+
+        //wordcount section
+        if($showWordCount) {
+            $html .= __('This post has ', 'word-count-plugin') . intval($wordCount) . __(' words.', 'word-count-plugin') . '<br>';
+        }
+
+        //character count section
+        if($showCharacterCount) {
+            $html .= __('This post has ', 'word-count-plugin') . intval(strlen(strip_tags($content))) . __(' characters.', 'word-count-plugin') . '<br>';
+        }
+
+
+        //read time section
+        if ($showReadTime) {
+            $readTime = ceil($wordCount / 200); // Assuming average reading speed of 200 words per minute
+            $html .= __('This post will take about ', 'word-count-plugin') . intval($readTime) . __(' minute(s) to read.', 'word-count-plugin');
+        }
+
+        $html .= '</p>';
+
+        // Determine where to display the statistics
+        if ( $displayLocation === '0') {
+           return $html . $content; // Add at the beginning of the post
+        } 
+
+        return $content . $html; // Add at the end of the post
     }
 
     function adminPage(){
@@ -46,7 +101,7 @@ class WordCountAndTimePlugin {
         register_setting(
         'wordcountplugin', 
         'wcp_location', 
-        array('sanitize_callback' => 'sanitize_text_field', 'default' => '0')
+        array('sanitize_callback' => array($this, 'sanitizeLocation'), 'default' => '0')
         );
 
         add_settings_field(
@@ -103,6 +158,19 @@ class WordCountAndTimePlugin {
             'wcp_readtime', 
             array('sanitize_callback' => 'sanitize_text_field', 'default' => '1')
         );
+    }
+
+    function sanitizeLocation($input) {
+        if ($input != '0' && $input != '1') {
+            add_settings_error(
+                'wcp_location',
+                'wcp_location_error',
+                'Display location must be either beginning or end',
+                'error'
+            );
+            return get_option('wcp_location');
+        }
+        return $input;
     }
 
     function ourHTMl() {?>
