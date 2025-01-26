@@ -9,6 +9,7 @@
     Author URI: https://prantomollick.com
     License: GPLv2 or later
     Text Domain: word-count-plugin
+    Domain Path: /languages
     Our First Unique Plugin is free software: you can redistribute it and/or modify
 */
 
@@ -17,6 +18,11 @@ class WordCountAndTimePlugin {
         add_action('admin_menu', array($this, 'adminPage'));
         add_action('admin_init', array($this, 'settings'));
         add_filter('the_content', array($this, 'ifWrap'));
+        add_action('init', array($this, 'languages'));
+    }
+
+    function languages() {
+        load_plugin_textdomain('word-count-plugin', false, dirname(plugin_basename(__FILE__)) . '/languages');
     }
 
     function ifWrap($content) {
@@ -48,19 +54,19 @@ class WordCountAndTimePlugin {
 
         //wordcount section
         if($showWordCount) {
-            $html .= __('This post has ', 'word-count-plugin') . intval($wordCount) . __(' words.', 'word-count-plugin') . '<br>';
+            $html .= esc_html__('This post has ', 'word-count-plugin') . intval($wordCount) . esc_html__(' words.', 'word-count-plugin') . '<br>';
         }
 
         //character count section
         if($showCharacterCount) {
-            $html .= __('This post has ', 'word-count-plugin') . intval(strlen(strip_tags($content))) . __(' characters.', 'word-count-plugin') . '<br>';
+            $html .= esc_html__('This post has ', 'word-count-plugin') . intval(strlen(strip_tags($content))) . esc_html__(' characters.', 'word-count-plugin') . '<br>';
         }
 
 
         //read time section
         if ($showReadTime) {
             $readTime = ceil($wordCount / 200); // Assuming average reading speed of 200 words per minute
-            $html .= __('This post will take about ', 'word-count-plugin') . intval($readTime) . __(' minute(s) to read.', 'word-count-plugin');
+            $html .= esc_html__('This post will take about ', 'word-count-plugin') . intval($readTime) . esc_html__(' minute(s) to read.', 'word-count-plugin');
         }
 
         $html .= '</p>';
@@ -76,7 +82,7 @@ class WordCountAndTimePlugin {
     function adminPage(){
         add_options_page(
             'Word Count Settings',
-            'Word Count',
+            esc_html__('Word Count', 'word-count-plugin'),
             'manage_options',
             'word-count-settings-page',
             array($this, 'ourHTML')

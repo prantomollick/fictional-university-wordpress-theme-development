@@ -1,0 +1,61 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Word Count Plugin\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-01-26 12:36+0000\n"
+"PO-Revision-Date: 2025-01-26 12:46+0000\n"
+"Last-Translator: Pranto Mollick\n"
+"Language-Team: German\n"
+"Language: de_DE\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.7.0; wp-6.7.1\n"
+"X-Domain: word-count-plugin"
+
+#: word-count-plugin.php:62
+msgid " characters."
+msgstr ""
+
+#: word-count-plugin.php:69
+msgid " minute(s) to read."
+msgstr ""
+
+#: word-count-plugin.php:57
+msgid " words."
+msgstr ""
+
+#. URI of the plugin
+#. Author URI of the plugin
+msgid "https://prantomollick.com"
+msgstr ""
+
+#: word-count-plugin.php:42
+msgid "Post Statistics"
+msgstr ""
+
+#. Author of the plugin
+msgid "Pranto Mollick"
+msgstr ""
+
+#. Description of the plugin
+msgid "This is my Word Count Plugin"
+msgstr ""
+
+#: word-count-plugin.php:57 word-count-plugin.php:62
+msgid "This post has "
+msgstr "dieser Beitrag hat"
+
+#: word-count-plugin.php:69
+msgid "This post will take about "
+msgstr "Dieser Beitrag dauert ca. "
+
+#: word-count-plugin.php:85
+msgid "Word Count"
+msgstr "Wortanzahi "
+
+#. Name of the plugin
+msgid "Word Count Plugin"
+msgstr ""
