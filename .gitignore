@@ -7,10 +7,12 @@
 # ignore everything in the "wp-content" directory, except the themes directories
 wp-content/*
 !wp-content/themes/
+!wp-content/plugins/
 
 # ignore all mu-plugins, plugins, and themes
 # unless explicitly whitelisted at the end of this file
 wp-content/themes/*
+wp-content/plugins/*
 
 # ignore all files starting with . or ~
 .*
@@ -18,7 +20,7 @@ wp-content/themes/*
 
 # ignore node dependency directories (used by grunt)
 node_modules/
-
+node_modules
 # ignore OS generated files
 ehthumbs.db
 Thumbs.db
@@ -68,3 +70,6 @@ Thumbs.db
 # track these themes
 !wp-content/themes/fictional-university/
 !wp-content/mu-plugins/
+
+!wp-content/plugins/our-first-unique-plugin
+
