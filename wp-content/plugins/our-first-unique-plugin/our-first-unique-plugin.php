@@ -12,11 +12,29 @@
     Our First Unique Plugin is free software: you can redistribute it and/or modify
 */
 
-function addToEndOfPost($content) {
-
-    if ( is_single() && is_main_query() ) {
-        return $content . '<p>Thank you for reading our first unique plugin!</p>';
+class WordCountAndTimePlugin {
+    function __construct() {
+        add_action('admin_menu', array($this, 'adminPage'));
     }
 
+    function adminPage(){
+        add_options_page(
+            'Word Count Settings',
+            'Word Count',
+            'manage_options',
+            'word-count-settings-page',
+            array($this, 'ourHTML'),
+        );
+    }
+    
+    function ourHTMl() {?>
+        <div class="wrap">
+            <h1>Word Count Settings</h1>
+        </div>
+    <?php
+    }
 }
-add_filter('the_content', 'addToEndOfPost');
+
+$wordCountAndTimePlugin = new WordCountAndTimePlugin();
+
+
