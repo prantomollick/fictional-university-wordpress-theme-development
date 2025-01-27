@@ -142,3 +142,32 @@ function makeNotePrivate($data, $postarr) {
 }
 
 add_filter('wp_insert_post_data', 'makeNotePrivate', 10, 2);
+
+function fic_kses($content) {
+    $allowed_tags = [
+        'a' => [
+            'href' => [],
+            'title' => []
+        ],
+        'br' => [],
+        'em' => [],
+        'strong' => [],
+        'p' => [],
+        'ul' => [],
+        'ol' => [],
+        'li' => [],
+        'img' => [
+            'src' => [],
+            'alt' => [],
+            'title' => [],
+            'class' => [],
+            'id' => [],
+            'style' => [],
+            'srcset' => [],
+            'sizes' => [],
+            'width' => [],
+            'height' => []
+        ]
+    ];
+    return wp_kses($content, $allowed_tags);
+}

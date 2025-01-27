@@ -13,6 +13,10 @@
     Our First Unique Plugin is free software: you can redistribute it and/or modify
 */
 
+if ( ! defined( 'ABSPATH' ) ) { // prevent direct access
+    exit;
+}
+
 class WordCountAndTimePlugin {
     function __construct() {
         add_action('admin_menu', array($this, 'adminPage'));
